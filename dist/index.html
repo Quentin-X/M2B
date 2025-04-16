@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Schematic Converter</title>
+        <meta name="description" content="Convert schematic files from minecraft to bloxd and vice versa">
+        <script src="./bundle.js" defer></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://sitetransform.github.io/sitetransform.css/dist/sitetransform.min.css">
+    </head>
+    <body>
+        <div class="text-cont">
+            <header>
+                <h1><b id="m">M</b>2<b id="b">B</b></h1>
+                <p>Easily convert minecraft schematics to bloxd schematics and vice versa.</p>
+                <p>By RealSlothuLT3 :D</p>
+            </header>
+                <p>
+                <strong>Supported types:</strong>
+                .bloxdschem, .schematic, .schem, .litematic
+            </p>
+            <p>
+                Use 
+                <a href="https://beta.cubical.xyz">beta cubical</a>
+                to convert .schematic files to .schem for more accurate conversion.
+            </p>
+            <p>Blocks with no equivalent are replaced with dirt.</p>
+            <p>Minecraft Schematics that exceed bloxd's maximum chunk size (100 blocks) get split into multiple files, compressed into a single .zip file.</p>
+            <p>The X-Coordinate specified at the end each file name represents the amount of blocks the build has to be moved on the X-Axis, compared to the position of the first schematic.</p>
+            <p>The Y- and Z-Coordinates stay the same.</p>
+            </p>
+            <label for="file">Upload schematic here (the result will automatically be downloaded):</label>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+header {
+    background-color: lightskyblue;
+    text-align: center;
+    height: 300px;
+    color: black;
+}
+#m {
+    color: lime;
+}
+#b {
+    color: brown;
+}
+body {
+    background-color: black;
+    color: white;
+}
