@@ -14,3 +14,28 @@ body {
     background-color: black;
     color: white;
 }
+::file-selector-button {
+  background-color: royalblue;
+  border: 0.1rem solid royalblue;
+  border-radius: .4rem;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  height: 3.8rem;
+  letter-spacing: .1rem;
+  line-height: 3.8rem;
+  padding: 0 3.0rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+::file-selector-button:hover {
+  background-color: #213571;
+  border-color: #213571;
+  color: #fff;
+  outline: 0;
+}
