@@ -1,14 +1,11 @@
 header {
-    background-color: lightskyblue;
+    background-color: #cd5c5c;
     text-align: center;
     height: 300px;
     color: black;
 }
-#m {
-    color: lime;
-}
-#b {
-    color: brown;
+h1 {
+    color: yellow;
 }
 body {
     background-color: black;
