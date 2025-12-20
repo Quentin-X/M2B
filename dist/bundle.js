@@ -45720,7 +45720,8 @@
             let r = o[e.split("[")[0]],
               n = a[r],
               l = "";
-            if (!n) return console.log(`Setting ${e} to dirt.`), 2;
+            if (!n) return /*console.log(`Setting ${e} to dirt.`)*/document.getElementById("replaced").innerHTML = `Setting ${e} to Dirt as no equivalent was found.`
+, 2;
             const c = { north: 1, east: 2, south: 3, west: 4, up: 3 },
               u = { north: 3, east: 4, south: 1, west: 2, up: 1 };
             let d = !1;
@@ -48103,7 +48104,8 @@
         n = parseBloxdschem(e),
         o = bloxdJSONtoMc(n),
         a = writeMinecraft(o);
-      console.log("Conversion time: " + (Date.now() - r)),
+        console.log("Conversion time: " + (Date.now() - r)), 
+        document.getElementById("convertionTime").innerHTML = "<b id="convertstart">Conversion time: <b>" + (Date.now() - r),
         downloadBin(a, `${t}.schem`);
     },
     parseMc = async function (e) {
