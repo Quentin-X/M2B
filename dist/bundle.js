@@ -48106,7 +48106,7 @@
         o = bloxdJSONtoMc(n),
         a = writeMinecraft(o);
         console.log("Conversion time: " + (Date.now() - r)), 
-        document.getElementById("convertionTime").innerHTML = "Conversion time: " + (Date.now() - r),
+        document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - r),
         downloadBin(a, `${t}.schem`);
     },
     parseMc = async function (e) {
