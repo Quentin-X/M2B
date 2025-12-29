@@ -36,3 +36,12 @@ body {
   color: #fff;
   outline: 0;
 }
+
+#replaced {
+    color: green;
+    height: 100px;
+    overflow-y: auto;
+}
+#conversionTime {
+    color: lime;
+}
