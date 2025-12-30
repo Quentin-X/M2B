@@ -39,7 +39,7 @@ body {
 
 #replaced {
     color: green;
-    height: 50px;
+    height: 65px;
     overflow-y: auto;
 }
 #conversionTime {
