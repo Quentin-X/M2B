@@ -10,6 +10,7 @@ h1 {
 body {
     background-color: black;
     color: white;
+    overflow-y: scroll;
 }
 ::file-selector-button {
   background-color: royalblue;
