@@ -48126,8 +48126,7 @@
         o = await parseMc(e),
         a = mcJSONToBloxd(o, t),
         { schems: i, sliceSize: s } = writeBloxdschem(a);
-      if ((console.log("Conversion time: " + (Date.now() - n)), i.length > 1)) {
-        document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - n)
+      if ((console.log("Conversion time: " + (Date.now() - n)), i.length > 1, document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - n))) {
         const e = new JSZip();
         for (let r = 0; r < i.length; r++) {
           const n = i[r];
