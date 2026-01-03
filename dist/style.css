@@ -11,6 +11,7 @@ body {
     background-color: black;
     color: white;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 ::file-selector-button {
   background-color: royalblue;
