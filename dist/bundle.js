@@ -48107,7 +48107,7 @@
         o = bloxdJSONtoMc(n),
         a = writeMinecraft(o);
         console.log("Conversion time: " + (Date.now() - r)), 
-        document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - r),
+        document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - r) + "ms",
         downloadBin(a, `${t}.schem`);
     },
     parseMc = async function (e) {
@@ -48126,7 +48126,7 @@
         o = await parseMc(e),
         a = mcJSONToBloxd(o, t),
         { schems: i, sliceSize: s } = writeBloxdschem(a);
-      if ((console.log("Conversion time: " + (Date.now() - n)), i.length > 1, document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - n))) {
+      if ((console.log("Conversion time: " + (Date.now() - n)), i.length > 1, document.getElementById("conversionTime").innerHTML = "Conversion time: " + (Date.now() - n) + "ms")) {
         const e = new JSZip();
         for (let r = 0; r < i.length; r++) {
           const n = i[r];
