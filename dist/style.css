@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 header {
     background-color: #cd5c5c;
     text-align: center;
@@ -11,7 +15,6 @@ body {
     background-color: black;
     color: white;
     overflow-y: scroll;
-    scroll-behavior: smooth;
 }
 ::file-selector-button {
   background-color: royalblue;
