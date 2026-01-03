@@ -41,6 +41,7 @@ body {
     color: green;
     height: 65px;
     overflow-y: auto;
+    border: 1px solid green;
 }
 #conversionTime {
     color: lime;
