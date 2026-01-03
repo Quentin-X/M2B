@@ -48079,7 +48079,7 @@
     input = document.createElement("input");
   (input.type = "file"),
     (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
-        (input.id = "file"),
+    input.id = "file"
     input.addEventListener("input", () => {
       const e = input.files[0],
         t = e.name.split("."),
