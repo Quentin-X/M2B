@@ -15,6 +15,12 @@ body {
     background-color: black;
     color: white;
     overflow-y: scroll;
+    background-image: url("下载.png");
+    height: 100%; 
+    width: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 ::file-selector-button {
   background-color: royalblue;
