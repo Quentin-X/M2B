@@ -8559,8 +8559,6 @@
   "Twirlina Cappucina Statue": 2779,
   "Weapon Lucky Block": 2780
 }
-
-      },
       592: (e, t, r) => {
         "use strict";
         var n = r(655),
