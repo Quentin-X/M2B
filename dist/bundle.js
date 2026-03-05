@@ -8560,8 +8560,6 @@
   "Weapon Lucky Block": 2780
 }
 
-
-          },
       },
       592: (e, t, r) => {
         "use strict";
