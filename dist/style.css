@@ -73,3 +73,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
+.text-cont {
+    background-colour: black;
+    opacity: 90%;
+}
