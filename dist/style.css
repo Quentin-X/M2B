@@ -5,8 +5,8 @@ html {
 header {
     background-color: #cd5c5c;
     text-align: center;
-    height: 300px;
     color: black;
+    opacity: 90%;
 }
 h1 {
     color: yellow;
