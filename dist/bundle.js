@@ -3020,7 +3020,7 @@
             iron_ore: 41,
             jungle_door: 570,
             jungle_leaves: 103,
-            jungle_log: 14,
+            jungle_log: 47,
             jungle_planks: 18,
             jungle_sapling: 199,
             jungle_slab: 691,
