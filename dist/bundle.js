@@ -2855,6 +2855,7 @@
             "Golden Decoration": "glowstone",
             "Moonstone Explosive": "tnt",
             Bedrock: "bedrock",
+            "Mango Wood Planks": "bamboo_planks"
           },
           m2bJson: {
             air: 0,
