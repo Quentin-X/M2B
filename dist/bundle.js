@@ -7742,7 +7742,7 @@
   "Jungle Grass Slab|meta|rot4|side": 1961,
   "Jungle Tall Grass": 1962,
   "Jungle Tall Grass|Top": 1963,
-  "Catnip": 1964, /* Experiment
+  "Catnip": 1964,
   "Mango Log": 1965,
   "Barkless Mango Log": 1966,
   "Barkless Mango Log|TreeBase|Mango": 1967,
@@ -7785,7 +7785,7 @@
   "Mango Ladder|meta|rot2": 2004,
   "Mango Ladder|meta|rot3": 2005,
   "Mango Ladder|meta|rot4": 2006,
-  "Mango Block": 2007, */
+  "Mango Block": 2007,
   "Banana Block": 2008,
   "Banana Seeds": 2009,
   "Banana Seeds|Growing": 2010,
