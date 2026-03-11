@@ -1,29 +1,32 @@
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 header {
-    background-color: #cd5c5c;
-    text-align: center;
-    color: black;
-    opacity: 90%;
+  background-color: #cd5c5c;
+  text-align: center;
+  color: black;
+  opacity: 90%;
 }
+
 h1 {
-    color: yellow;
+  color: yellow;
 }
+
 body {
-    background-color: black;
-    color: white;
-    overflow-y: scroll;
-    background-image: url("image.png");
-    height: 100%; 
-    width: 100%; 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-color: black;
+  color: white;
+  overflow-y: scroll;
+  background-image: url("image.png");
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
 ::file-selector-button {
-  background-color: royalblue;
+  background-color: var(--filecolour, royalblue);
   border: 0.1rem solid royalblue;
   border-radius: .4rem;
   color: #fff;
@@ -49,13 +52,14 @@ body {
 }
 
 #replaced {
-    color: green;
-    height: 65px;
-    overflow-y: auto;
-    border: 1px solid green;
+  color: green;
+  height: 65px;
+  overflow-y: auto;
+  border: 1px solid green;
 }
+
 #conversionTime {
-    color: lime;
+  color: lime;
 }
 
 ::-webkit-scrollbar {
@@ -63,18 +67,27 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 .text-cont {
-    background-color: black;
-    opacity: 66%;
+  background-color: black;
+  opacity: 66%;
+}
+
+textarea {
+  background-color: black !important;
+  color: green;
+}
+
+.invis {
+  display: none;
 }
