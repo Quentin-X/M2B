@@ -48378,7 +48378,40 @@ label {
         t)
       );
     },
+    pressed = 0
     input = document.getElementById("input");
+    if (pressed == 0) {
+        
+    } else {
+        input = document.createElement("input");
+        input.type = "file"
+        input.accept = ".bloxdschem,.schematic,.schem,.litematic"
+        colourtoput = randomDarkColor()
+        input.style.setProperty("--filecolour", colourtoput);
+        input.id = "file"
+        input.setAttribute("name", "fi-file-resume");
+            input.addEventListener("input", () =&gt; {
+      const e = input.files[0],
+        t = e.name.split("."),
+        r = t[0],
+        n = t[t.length - 1],
+        o = new FileReader();
+      let a;
+      "bloxdschem" === n
+        ? (a = bloxdToMc)
+        : ["schematic", "schem", "litematic"].includes(n)
+        ? (a = mcToBloxd)
+        : error(
+            "File type not recognized. Only valid are .bloxdschem, .schematic, .schem and .litematic"
+          ),
+        o.readAsArrayBuffer(e),
+        o.addEventListener("load", (e) =&gt; {
+          const t = Buffer.from(e.target.result);
+          a(t, r, n);
+        });
+    }),
+    document.form.appendChild(input);
+    }
 //  (input.type = "file"),
 //    (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     colourtoput = randomDarkColor()
@@ -48971,7 +49004,7 @@ label {
             let code = document.getElementById("editor").value;
             code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}" + document.getElementById("code1").value + code + document.getElementById("code2").value
             eval(code);
-
+            pressed = 1
             function addBtn() {
                 let label = document.createElement("label");
 
@@ -49009,7 +49042,6 @@ label {
     e.target.reset();
   });
 </script>
-
 
 </body>
 </html>
