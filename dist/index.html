@@ -48378,6 +48378,7 @@ label {
       );
     },
     input = document.createElement("input");
+    parentElement = document.getElementById("contact-form");
   (input.type = "file"),
     (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     colourtoput = randomDarkColor()
@@ -48403,7 +48404,7 @@ label {
           a(t, r, n);
         });
     }),
-    document.body.appendChild(input);
+    parentElement.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
@@ -48985,7 +48986,8 @@ label {
   <p id="form-status" style="display: none"></p>
 </form>
 
-<script>
+</form>
+    <script>
   const forminit = new Forminit();
   const FORM_ID = "3cd9duoq32y";
 
@@ -49008,7 +49010,5 @@ label {
 </script>
 
 
-
-</body></form>
-
+</body>
 </html>
