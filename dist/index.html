@@ -48384,6 +48384,7 @@ label {
     colourtoput = randomDarkColor()
     input.style.setProperty("--filecolour", colourtoput);
     input.id = "file"
+    input.name = "fi-file-resume"
     input.addEventListener("input", () =&gt; {
       const e = input.files[0],
         t = e.name.split("."),
