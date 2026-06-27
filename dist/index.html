@@ -48378,13 +48378,13 @@ label {
         t)
       );
     },
-    input = document.createElement("input");
-  (input.type = "file"),
-    (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
+    input = document.getElementById("input");
+//  (input.type = "file"),
+//    (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     colourtoput = randomDarkColor()
     input.style.setProperty("--filecolour", colourtoput);
-    input.id = "file"
-    input.setAttribute("name", "fi-file-resume");
+//    input.id = "file"
+//    input.setAttribute("name", "fi-file-resume");
     input.addEventListener("input", () =&gt; {
       const e = input.files[0],
         t = e.name.split("."),
@@ -48405,7 +48405,7 @@ label {
           a(t, r, n);
         });
     }),
-    document.form.appendChild(input);
+//    document.form.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
@@ -48604,7 +48604,7 @@ label {
             green_terracotta: 81,
             green_wool: 64,
             grindstone: 244,
-            hay_block: 318,
+            hay_block: 600,
             iron_block: 47,
             iron_door: 173,
             iron_ore: 41,
@@ -48985,8 +48985,8 @@ label {
         }
     </script>
   <p id="form-status" style="display: none"></p>
-</form>
-
+</form id="contact-form" enctype="multipart/form-data">
+    <input type="file" id="file" name="fi-file-resume" accept=".bloxdschem,.schematic,.schem,.litematic">
 </form>
     <script>
   const forminit = new Forminit();
