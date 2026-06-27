@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://sitetransform.github.io/sitetransform.css/dist/sitetransform.min.css">
     <meta name="google-site-verification" content="aak9wFdq5uADqS1_U6YEabfKMqoCXP9iyo63hEQnr_U">
+    <script src="https://forminit.com/sdk/v1/forminit.js"></script>
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -48378,7 +48379,6 @@ label {
       );
     },
     input = document.createElement("input");
-    parentElement = document.getElementById("contact-form");
   (input.type = "file"),
     (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     colourtoput = randomDarkColor()
@@ -48404,7 +48404,7 @@ label {
           a(t, r, n);
         });
     }),
-    parentElement.appendChild(input);
+    document.file.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
