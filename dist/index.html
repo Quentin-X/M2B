@@ -75,9 +75,6 @@ label {
         <h1>Minecraft to Bloxd.io schematic converter (Continuation build)</h1>
         <p>Easily convert Minecraft schematics to Bloxd.io schematics and vice versa!</p>
 
-        <small>Note: Due to metadata being put in new Bloxd.io schematics, there would be an error called "trailing
-            data" when you try to convert Bloxd.io schematics to Minecraft ones. Due to that, only old schematics can be
-            converted.</small>
         <p>Latest update:</p>
         <b>Added Iron Bars -> Patterned Grey Glass conversion. Torches next?</b>
         <p>&nbsp;</p>
@@ -87,7 +84,7 @@ label {
     <div class="text-cont">
         <p>
             <strong>Supported types:</strong>
-            .bloxdschem, .schematic, .schem, .litematic
+            .schematic, .schem, .litematic
         </p>
         <p>Blocks with no equivalent are replaced with dirt.</p>
         <p>Minecraft Schematics that exceed Bloxd.io's schematic chunk limit (100 chunks) get split into multiple files,
@@ -106,6 +103,7 @@ label {
                 tutorial</a>. Note that the link in the tutorial for MCEdit is broken, and the correct link is <a
                 href="https://www.mcedit.net/" target="_blank">this</a>. Ignore the step for WorldEdit if you already
             have the map. ⚠️</p>
+        <p><b>This website only supports Minecraft to Bloxd.io conversions. For the other way around, use <a href="https://hansdiewurst.github.io/converter/" target="_blank"> this</a>.</b></p>
         <div id="conversionTime"></div>
         <div id="replaced">Blocks without configured conversions:</div>
     </div>
@@ -48379,7 +48377,7 @@ label {
     },
     input = document.createElement("input");
   (input.type = "file"),
-    (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
+    (input.accept = ".schematic,.schem,.litematic"),
     colourtoput = randomDarkColor()
     input.style.setProperty("--filecolour", colourtoput);
     input.id = "file"
@@ -48395,7 +48393,7 @@ label {
         : ["schematic", "schem", "litematic"].includes(n)
         ? (a = mcToBloxd)
         : error(
-            "File type not recognized. Only valid are .bloxdschem, .schematic, .schem and .litematic"
+            "File type not recognized. The only valid types are .schematic, .schem and .litematic!"
           ),
         o.readAsArrayBuffer(e),
         o.addEventListener("load", (e) =&gt; {
