@@ -48383,22 +48383,19 @@ label {
     input.id = "file"
         
 input.addEventListener("input", () => {
-  const e = input.files[0],
-    t = e.name.split("."),
-    r = t[0],
-    n = t[t.length - 1],
-    o = new FileReader();
-  let a;
+const file = event.target.files[0];
+  if (!file) return;
 
-  // Check for the specific extension, show modal, and redirect after 3 seconds
-  if ("bloxdschem" === n) {
-    // 1. Create the modal element
+  // 1. Get the lowercase extension
+  const extension = file.name.split('.').pop().toLowerCase();
+      // 1. Create the modal element
     const modal = document.createElement("div");
     modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: whitesmoke; display: flex; justify-content: center; align-items: center; z-index: 99999;">
+      <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 99999;">
         <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; font-family: sans-serif;">
-          <h2>Redirecting to .bloxdschem to .schem converter...</h2>
-          <p>Please reupload the file there again. You will redirect in 3 seconds.</p>
+          <h2>Redirecting...</h2>
+          <p>Opening the Bloxd to Minecraft converter. Upload the file again there.</p><br>
+          <p>You will redirect in 3 seconds...</p>
         </div>
       </div>
     `;
@@ -48410,7 +48407,13 @@ input.addEventListener("input", () => {
     }, 3000);
     
     return; // Stop further execution
-  }
+        
+  const e = input.files[0],
+    t = e.name.split("."),
+    r = t[0],
+    n = t[t.length - 1],
+    o = new FileReader();
+  let a;
 
   // Handle standard Minecraft formats
   if (["schematic", "schem", "litematic"].includes(n)) {
