@@ -48388,6 +48388,7 @@ const file = event.target.files[0];
 
   // 1. Get the lowercase extension
   const extension = file.name.split('.').pop().toLowerCase();
+    if (extension == "bloxdschem") {
       // 1. Create the modal element
     const modal = document.createElement("div");
     modal.innerHTML = `
@@ -48407,6 +48408,7 @@ const file = event.target.files[0];
     }, 3000);
     
     return; // Stop further execution
+    }
         
   const e = input.files[0],
     t = e.name.split("."),
