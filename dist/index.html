@@ -50450,6 +50450,42 @@ const file = event.target.files[0];
             }
         }
     </script>
+    <script>
+        window.addEventListener('error', (event) => {
+  // 1. Safely check if an error object exists
+  const error = event.error;
+  
+  if (error && error.message && error.message.includes('trailing data')) {
+    console.log('🎯 Detected the specific "trailing data" error!');
+    
+    // You can inspect the stack trace to ensure it's from 'fromBuffer'
+    if (error.stack && error.stack.includes('fromBuffer')) {
+      console.log('Confirmed: Error originated during buffer parsing.');
+      
+      // Handle the error here (e.g., alert the user, reset a file uploader, etc.)
+      // Select the modal and buttons
+const modal = document.getElementById('myModal');
+const closeBtn = document.getElementById('closeModalBtn');
+modal.showModal();
+
+// Close the modal when the close button is clicked
+closeBtn.addEventListener('click', () => {
+  modal.close();
+});
+    }
+
+    // Optional: Prevent the error from crashing into the browser console
+    // event.preventDefault();
+  }
+});
+    </script>
+
+<dialog id="myModal">
+  <h2>Redirect</h2>
+  <p>You are trying to convert a new .bloxdschem file to a .schem file. This tool cannot do this as there is unremmovable metadata. Please go to <a href="https://hansdiewurst.github.io/converter/">this</a> tool to specially convert Bloxd.io to Minecraft schematics.</p>
+  
+  <button id="closeModalBtn">Close</button>
+</dialog>
 
 
 
