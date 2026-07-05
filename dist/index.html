@@ -50450,35 +50450,6 @@ const file = event.target.files[0];
             }
         }
     </script>
-    <script>
-        window.addEventListener('error', (event) => {
-  // 1. Safely check if an error object exists
-  const error = event.error;
-  
-  if (error && error.message && error.message.includes('trailing data')) {
-    console.log('🎯 Detected the specific "trailing data" error!');
-    
-    // You can inspect the stack trace to ensure it's from 'fromBuffer'
-    if (error.stack && error.stack.includes('fromBuffer')) {
-      console.log('Confirmed: Error originated during buffer parsing.');
-      
-      // Handle the error here (e.g., alert the user, reset a file uploader, etc.)
-      // Select the modal and buttons
-const modal = document.getElementById('myModal');
-const closeBtn = document.getElementById('closeModalBtn');
-modal.showModal();
-
-// Close the modal when the close button is clicked
-closeBtn.addEventListener('click', () => {
-  modal.close();
-});
-    }
-
-    // Optional: Prevent the error from crashing into the browser console
-    // event.preventDefault();
-  }
-});
-    </script>
 
 <dialog id="myModal">
   <h2>Redirect</h2>
@@ -50486,6 +50457,67 @@ closeBtn.addEventListener('click', () => {
   
   <button id="closeModalBtn">Close</button>
 </dialog>
+    
+    <script>
+window.addEventListener('error', (event) => {
+  const error = event.error;
+  
+  // Detect your specific error
+  if (error && error.message && error.message.includes('trailing data')) {
+    event.preventDefault(); // Stop the default browser error handling
+
+    // 1. Create the centered background overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // Dimmed background
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '99999'; // Ensure it sits on top of everything
+    overlay.style.fontFamily = 'sans-serif';
+
+    // 2. Create the central message box
+    const messageBox = document.createElement('div');
+    messageBox.style.backgroundColor = '#ffffff';
+    messageBox.style.padding = '30px';
+    messageBox.style.borderRadius = '8px';
+    messageBox.style.boxShadow = '0px 4px 15px rgba(0,0,0,0.2)';
+    messageBox.style.textAlign = 'center';
+    messageBox.style.color = '#333333';
+
+    // 3. Add content to the box (with a countdown visual)
+    messageBox.innerHTML = `
+      <h3 style="margin: 0 0 10px 0; color: #d9534f;">A file parsing error occurred</h3>
+      <p style="margin: 0 0 5px 0;">We are redirecting you to a backup page...</p>
+      <p id="redirect-timer" style="font-weight: bold; color: #666;">in 3 seconds</p>
+    `;
+
+    // Put it all together and add to the webpage
+    overlay.appendChild(messageBox);
+    document.body.appendChild(overlay);
+
+    // 4. Handle the 3-second countdown visual
+    let secondsLeft = 3;
+    const timerInterval = setInterval(() => {
+      secondsLeft--;
+      const timerElement = document.getElementById('redirect-timer');
+      if (timerElement) {
+        timerElement.textContent = `in ${secondsLeft} second${secondsLeft !== 1 ? 's' : ''}`;
+      }
+    }, 1000);
+
+    // 5. Trigger the actual redirect after 3 seconds
+    setTimeout(() => {
+      clearInterval(timerInterval); // Clean up the interval ticker
+      window.location.replace("https://hansdiewurst.github.io/converter/");
+    }, 3000);
+  }
+});
+    </script>
 
 
 
