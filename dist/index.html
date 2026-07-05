@@ -30899,7 +30899,7 @@ label {
             var n = new l(e),
               o = z(this, n, t, r);
             if (!n.isValid()) throw new Error("truncated buffer");
-            if (!r &amp;&amp; n.pos &lt; e.length) throw new Error("trailing data");
+            /* if (!r &amp;&amp; n.pos &lt; e.length) throw new Error("trailing data");  */
             return o;
           }),
           (y.prototype.fromString = function (e) {
