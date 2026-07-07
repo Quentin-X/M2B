@@ -50478,31 +50478,47 @@ const file = event.target.files[0];
 
     <script>
         function run() {
-            let code = document.getElementById("editor").value;
+let code = document.getElementById("editor").value;
 
 code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}\n" 
      + document.getElementById("code1").value + "\n" 
      + code + "\n" 
      + document.getElementById("code2").value;
 
-try {
-    eval(code);
-} catch (e) {
-    if (e instanceof SyntaxError) {
-        console.error("❌ Syntax Error caught! Here is the generated code with line numbers:");
-        
-        // Split the code by newlines and print each line with its number
-        const lines = code.split('\n');
-        lines.forEach((line, index) => {
-            console.log(`${index + 1}: ${line}`);
-        });
-        
-        console.error(e); // Prints the actual error message at the bottom
-    } else {
-        throw e; // If it's a different kind of error, let it through
-    }
-}
+// --- DIAGNOSTIC LOADER ---
+const blob = new Blob([code], { type: 'application/javascript' });
+const url = URL.createObjectURL(blob);
+const script = document.createElement('script');
 
+script.src = url;
+script.onerror = (err) => {
+    console.log("Failed to parse script.");
+};
+
+// Catch the error globally to extract the line number
+window.onerror = function(message, source, lineno, colno, error) {
+    if (source.includes("blob:")) {
+        console.clear();
+        console.error(`🎯 FOUND IT! The syntax error is on LINE ${lineno}, COLUMN ${colno} of your combined code.`);
+        
+        // Print just the broken line and a few lines around it
+        const lines = code.split('\n');
+        const start = Math.max(0, lineno - 3);
+        const end = Math.min(lines.length, lineno + 3);
+        
+        console.log("%c--- SURROUNDING CODE ---", "background: #222; color: #bada55; font-weight: bold;");
+        for (let i = start; i < end; i++) {
+            const isTarget = (i + 1 === lineno);
+            console.log(`${isTarget ? '👉' : '  '} Line ${i + 1}: ${lines[i]}`);
+        }
+        
+        // Clean up window listener
+        window.onerror = null;
+        return true; // Prevents the error from bubbling up
+    }
+};
+
+document.body.appendChild(script);
             function addBtn() {
                 let label = document.createElement("label");
 
