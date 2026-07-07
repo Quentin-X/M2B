@@ -2964,31 +2964,9 @@ label {
             "Moonstone Explosive": "tnt",
             Bedrock: "bedrock",
             "Mango Wood Planks": "bamboo_planks"
-          };
+          },
     </textarea>
     <textarea class="invis" id="code2">
-        // 1. Create the high-speed lookup map: { "red": 1, "yellow": 2 }
-const nameToIdLookup = {};
-for (const id in idToNameJson) {
-  if (idToNameJson.hasOwnProperty(id)) {
-    const name = idToNameJson[id];
-    nameToIdLookup[name] = Number(id); 
-  }
-}
-
-// 2. Build the final dictionary as m2bJson
-const m2bJson = {};
-for (const key in m2cJson) {
-  if (m2cJson.hasOwnProperty(key)) {
-    const name = m2cJson[key];
-    
-    // Look up the ID instantly, fallback to 1 if it doesn't exist
-    m2bJson[key] = nameToIdLookup[name] ?? 1;
-  }
-}
-
-console.log(m2bJson);
-// Output: { itemA: 1, itemB: 2, itemC: 1 }
           stairReplacements: {
             oak: "oak_planks",
             spruce: "spruce_planks",
@@ -9624,6 +9602,29 @@ console.log(m2bJson);
           o = function () {
             return !!n;
           };
+                // 1. Create the high-speed lookup map: { "red": 1, "yellow": 2 }
+const nameToIdLookup = {};
+for (const id in idToNameJson) {
+  if (idToNameJson.hasOwnProperty(id)) {
+    const name = idToNameJson[id];
+    nameToIdLookup[name] = Number(id); 
+  }
+}
+
+// 2. Build the final dictionary as m2bJson
+const m2bJson = {};
+for (const key in m2cJson) {
+  if (m2cJson.hasOwnProperty(key)) {
+    const name = m2cJson[key];
+    
+    // Look up the ID instantly, fallback to 1 if it doesn't exist
+    m2bJson[key] = nameToIdLookup[name] ?? 1;
+  }
+}
+
+console.log(m2bJson);
+// Output: { itemA: 1, itemB: 2, itemC: 1 }
+        
         (o.hasArrayLengthDefineBug = function () {
           if (!n) return null;
           try {
