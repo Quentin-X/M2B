@@ -54698,8 +54698,6 @@ for (const key in m2cJson) {
   }
 }
 
-console.log(m2bJson);
-// Output: { itemA: 1, itemB: 2, itemC: 1 }
             code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}", document.getElementById("code1").value, m2bJson, ",", document.getElementById("code2").value
             eval(code);
 
@@ -54713,17 +54711,13 @@ console.log(m2bJson);
                 let br = document.createElement("br");
                 document.body.appendChild(br);
             }
+    
+console.log(m2bJson);
+// Output: { itemA: 1, itemB: 2, itemC: 1 }
         }
     </script>
     <button onclick="run()">Use configurations and create an upload button for it</button>
     <br>
-
-<dialog id="myModal">
-  <h2>Redirect</h2>
-  <p>You are trying to convert a new .bloxdschem file to a .schem file. This tool cannot do this as there is unremmovable metadata. Please go to <a href="https://hansdiewurst.github.io/converter/">this</a> tool to specially convert Bloxd.io to Minecraft schematics.</p>
-  
-  <button id="closeModalBtn">Close</button>
-</dialog>
     
     <script>
 window.addEventListener('error', (event) => {
