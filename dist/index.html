@@ -50480,9 +50480,28 @@ const file = event.target.files[0];
         function run() {
             let code = document.getElementById("editor").value;
 
-            code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}\n"  + document.getElementById("code1").value + "\n" + code + "\n" + document.getElementById("code2").value + "\n//# sourceURL=dynamicScript.js"; // <--- This is the magic line
+code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}\n" 
+     + document.getElementById("code1").value + "\n" 
+     + code + "\n" 
+     + document.getElementById("code2").value;
 
-            eval(code);
+try {
+    eval(code);
+} catch (e) {
+    if (e instanceof SyntaxError) {
+        console.error("❌ Syntax Error caught! Here is the generated code with line numbers:");
+        
+        // Split the code by newlines and print each line with its number
+        const lines = code.split('\n');
+        lines.forEach((line, index) => {
+            console.log(`${index + 1}: ${line}`);
+        });
+        
+        console.error(e); // Prints the actual error message at the bottom
+    } else {
+        throw e; // If it's a different kind of error, let it through
+    }
+}
 
             function addBtn() {
                 let label = document.createElement("label");
