@@ -54700,7 +54700,7 @@ for (const key in m2cJson) {
 
 console.log(m2bJson);
 // Output: { itemA: 1, itemB: 2, itemC: 1 }
-            code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}" + document.getElementById("code1").value + m2bJson + "," + document.getElementById("code2").value
+            code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}", document.getElementById("code1").value, m2bJson, ",", document.getElementById("code2").value
             eval(code);
 
             function addBtn() {
