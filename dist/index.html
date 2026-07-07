@@ -50479,7 +50479,9 @@ const file = event.target.files[0];
     <script>
         function run() {
             let code = document.getElementById("editor").value;
-            code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}\n" + document.getElementById("code1").value + "\n" + code + "\n" + document.getElementById("code2").value;
+
+            code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())}, ${Math.floor(120*Math.random())})`}\n"  + document.getElementById("code1").value + "\n" + code + "\n" + document.getElementById("code2").value + "\n//# sourceURL=dynamicScript.js"; // <--- This is the magic line
+
             eval(code);
 
             function addBtn() {
