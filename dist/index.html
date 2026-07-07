@@ -2964,7 +2964,7 @@ label {
             "Moonstone Explosive": "tnt",
             Bedrock: "bedrock",
             "Mango Wood Planks": "bamboo_planks"
-          },
+          };
     </textarea>
     <textarea class="invis" id="code2">
         // 1. Create the high-speed lookup map: { "red": 1, "yellow": 2 }
@@ -50485,6 +50485,7 @@ code = "function randomDarkColor(){return`rgb(${Math.floor(120*Math.random())}, 
      + code + "\n" 
      + document.getElementById("code2").value;
 
+    eval(code)
 // --- DIAGNOSTIC LOADER ---
 const blob = new Blob([code], { type: 'application/javascript' });
 const url = URL.createObjectURL(blob);
@@ -50531,13 +50532,6 @@ document.body.appendChild(script);
             }
         }
     </script>
-
-<dialog id="myModal">
-  <h2>Redirect</h2>
-  <p>You are trying to convert a new .bloxdschem file to a .schem file. This tool cannot do this as there is unremmovable metadata. Please go to <a href="https://hansdiewurst.github.io/converter/">this</a> tool to specially convert Bloxd.io to Minecraft schematics.</p>
-  
-  <button id="closeModalBtn">Close</button>
-</dialog>
     
     <script>
 window.addEventListener('error', (event) => {
