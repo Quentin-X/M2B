@@ -48786,7 +48786,7 @@
       );
     },
     input = document.createElement("input");
-    header = document.getElementsByTagName('p');
+    header = document.getElementsByTagName('header');
   (input.type = "file"),
     (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     input.id = "file"
