@@ -48786,6 +48786,7 @@
       );
     },
     input = document.createElement("input");
+    header = document.getElementsByTagName('p');
   (input.type = "file"),
     (input.accept = ".bloxdschem,.schematic,.schem,.litematic"),
     input.id = "file"
@@ -48809,7 +48810,7 @@
           a(t, r, n);
         });
     }),
-    document.body.appendChild(input);
+    header.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
