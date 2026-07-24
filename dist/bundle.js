@@ -48809,8 +48809,8 @@
           a(t, r, n);
         });
     }),
-    headeridk = document.getElementById(header)
-    headeridk.appendchild(input)
+    /* headeridk = document.getElementById(header) */
+    document.body.appendchild(input)
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
