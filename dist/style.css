@@ -8,6 +8,7 @@ header {
   color: black;
   opacity: 90%;
   display: flex;
+  flex-direction: row;
 }
 
 h1 {
