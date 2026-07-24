@@ -48810,7 +48810,7 @@
           a(t, r, n);
         });
     }),
-    header.appendChild(input);
+    document.header.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
