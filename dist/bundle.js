@@ -48809,7 +48809,7 @@
           a(t, r, n);
         });
     }),
-    headeridk = document.querySelector('header');
+    headeridk = document.getElementById(header)
     headeridk.appendChild(input);
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
