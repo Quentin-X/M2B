@@ -93,3 +93,7 @@ textarea {
 .invis {
   display: none;
 }
+
+.gamecard {
+  aspect-ratio: 3 / 2;
+}
