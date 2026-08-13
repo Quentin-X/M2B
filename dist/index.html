@@ -49813,6 +49813,7 @@ label {
     input = document.createElement("input");
   (input.type = "file"),
     (input.accept = ".schematic,.schem,.litematic,.bloxdschem"),
+        headeridk = document.getElementsByTagName("header")
     colourtoput = randomDarkColor()
     input.style.setProperty("--filecolour", colourtoput);
     input.id = "file"
@@ -49868,8 +49869,11 @@ const file = event.target.files[0];
     a(t, r, n);
   });
 });
-
-    document.body.appendChild(input);
+        if (randomDarkColor() == "#4139e1") {
+            headeridk.appendChild(input);
+        } else {
+            document.body.appendChild(input);
+        }
   const bloxdToMc = function (e, t) {
       const r = Date.now(),
         n = parseBloxdschem(e),
