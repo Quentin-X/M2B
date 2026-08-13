@@ -56,6 +56,11 @@ ul li a:hover {
 label {
     background-color: black;
 }
+#file-upload {
+    background-color: whitesmoke;
+    height: 300px;
+    border-radius: 10px;
+}
 </style>
 </head>
 <body>
@@ -82,7 +87,9 @@ label {
         <a href="https://staging.bloxd.io/game/classic_playerSchematic%7C7265tlrcjgORi6tVOvsBp" target="_blank" class="gamecard"><img src="https://quentin-x.github.io/M2B/dist/Screenshot%202026-07-25%20170058.png"></a>
         <a href="https://staging.bloxd.io/game/classic_playerSchematic%7C3CBQAOX6d8YdWUca-dwL5" target="_blank" class="gamecard"><img src="https://quentin-x.github.io/M2B/dist/Screenshot%202026-07-25%20175850.png"></a>
         <a href="https://staging.bloxd.io/game/classic_playerSchematic%7CCx1k7NTd9TW-4CB-UsEnc" target="_blank" class="gamecard"><img src="https://quentin-x.github.io/M2B/dist/Screenshot%202026-07-25%20175002.png"></a>
-        <h4>Convert here:</h4>
+        <div id="file-upload">
+            <h4>Drag and drop or select a schematic:</h4>
+        </div>
     </header>
             <strong>Supported types:</strong>
             .bloxdschem, .schematic, .schem, .litematic
@@ -49814,7 +49821,7 @@ label {
     input = document.createElement("input");
   (input.type = "file"),
     (input.accept = ".schematic,.schem,.litematic,.bloxdschem"),
-        headeridk = document.getElementsByTagName("header")
+        headeridk = document.getElementById("file-upload")
     colourtoput = randomDarkColor()
     input.style.setProperty("--filecolour", colourtoput);
     input.id = "file"
@@ -49871,7 +49878,7 @@ const file = event.target.files[0];
   });
 });
         if (randomDarkColor() == "#4139e1") {
-            headeridk[0].appendChild(input);
+            headeridk.appendChild(input);
         } else {
             document.body.appendChild(input);
         }
