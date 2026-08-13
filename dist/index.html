@@ -49870,9 +49870,7 @@ const file = event.target.files[0];
   });
 });
         if (randomDarkColor() == "#4139e1") {
-            console.log("Value of header:", headeridk);
-            console.log("Type of header:", typeof headeridk);
-            headeridk.appendChild(input);
+            headeridk[0].appendChild(input);
         } else {
             document.body.appendChild(input);
         }
