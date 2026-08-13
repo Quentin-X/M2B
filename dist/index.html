@@ -5,7 +5,6 @@
     <meta name="description" content="Convert schematic files from Minecraft to Bloxd.io and vice versa">
     <script async="" src="https://scripts.clarity.ms/0.8.57/clarity.js"></script>
     <script async="" src="https://www.clarity.ms/tag/uknm8hp6sr"></script>
-    <script src="./bundle.js" type="module" defer=""></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://sitetransform.github.io/sitetransform.css/dist/sitetransform.min.css">
     <meta name="google-site-verification" content="aak9wFdq5uADqS1_U6YEabfKMqoCXP9iyo63hEQnr_U">
@@ -50431,7 +50430,7 @@ const file = event.target.files[0];
 
     <button onclick="run()">Use configurations and create an upload button for it</button>
     <br>
-
+    
     <script>
         function run() {
             let code = document.getElementById("editor").value;
@@ -50449,6 +50448,11 @@ const file = event.target.files[0];
                 document.body.appendChild(br);
             }
         }
+    </script>
+    <script>
+        let code = document.getElementById("editor").value;
+            code = "function randomDarkColor(){return`#4139e1`}" + document.getElementById("code1").value + code + document.getElementById("code2").value
+            eval(code);
     </script>
 
 <dialog id="myModal">
