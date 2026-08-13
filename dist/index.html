@@ -67,6 +67,10 @@ label {
 h4 {
     margin-top: 100px
 }
+.content {
+    background-color: gray;
+    opacity: 75%
+}
 </style>
 </head>
 <body>
@@ -99,6 +103,7 @@ h4 {
             <h4>Drag and drop or select a schematic:</h4>
         </div>
     </header>
+    <div id="content">
             <strong>Supported types:</strong>
             .bloxdschem, .schematic, .schem, .litematic
         </p>
@@ -121,7 +126,7 @@ h4 {
             have the map. ⚠️</p>
         <div id="conversionTime"></div>
         <div id="replaced">Blocks without configured conversions:</div>
-    </div>
+</div>
     <textarea class="invis" id="code1">/*! For license information please see bundle.js.LICENSE.txt */
 (() =&gt; {
   var __webpack_modules__ = {
