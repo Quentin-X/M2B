@@ -128,6 +128,7 @@ h4 {
         <div id="replaced">Blocks without configured conversions:</div>
 </div>
     <textarea class="invis" id="code1">/*! For license information please see bundle.js.LICENSE.txt */
+        let input = ""
 (() =&gt; {
   var __webpack_modules__ = {
       41: (e, t, r) =&gt; {
@@ -51177,7 +51178,7 @@ const file = event.target.files[0];
         }
 
         // 5. Automatic Processing and Download Event Listener
-        document.getElementById('input').addEventListener('change', function (event) {
+        input.addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (!file) return;
             /*
