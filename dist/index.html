@@ -49842,29 +49842,7 @@ h4 {
 input.addEventListener("input", () => {
 const file = event.target.files[0];
   if (!file) return;
-
-  // 1. Get the lowercase extension
-  const extension = file.name.split('.').pop().toLowerCase();
-    if (extension == "bloxdschem") {
-      // 1. Create the modal element
-    const modal = document.createElement("div");
-    modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 99999;">
-        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; font-family: sans-serif;">
-          <h2>Redirecting...</h2>
-          <p>Opening the Bloxd to Minecraft converter. Upload the file again there.</p><br>
-          <p>You will redirect in 3 seconds...</p>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    // 2. Wait 3 seconds (3000ms) before changing the location
-    setTimeout(() => {
-      window.location.href = "https://hansdiewurst.github.github.io/converter/";
-    }, 3000);
-    
-    return; // Stop further execution
+      window.location.href = "https://quentin-x.github.io/M2B/dist/bloxdtomc.html";
     }
         
   const e = input.files[0],
