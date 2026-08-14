@@ -49833,6 +49833,7 @@ h4 {
       );
     },
     input = document.createElement("input");
+        document.sharedFile = input
   (input.type = "file"),
     (input.accept = ".schematic,.schem,.litematic,.bloxdschem"),
         headeridk = document.getElementById("file-upload")
@@ -51178,7 +51179,7 @@ const file = event.target.files[0];
         }
 
         // 5. Automatic Processing and Download Event Listener
-        input.addEventListener('change', function (event) {
+        window.sharedFile.addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (!file) return;
             /*
