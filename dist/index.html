@@ -49842,29 +49842,6 @@ h4 {
 input.addEventListener("input", () => {
 const file = event.target.files[0];
   if (!file) return;
-
-  // 1. Get the lowercase extension
-  const extension = file.name.split('.').pop().toLowerCase();
-    if (extension == "bloxdschem") {
-      // 1. Create the modal element
-    const modal = document.createElement("div");
-    modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 99999;">
-        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; font-family: sans-serif;">
-          <h2>Redirecting...</h2>
-          <p>Opening the Bloxd to Minecraft converter. Upload the file again there.</p><br>
-          <p>You will redirect in 3 seconds...</p>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    // 2. Wait 3 seconds (3000ms) before changing the location
-    setTimeout(() => {
-      window.location.href = "https://hansdiewurst.github.github.io/converter/";
-    }, 3000);
-    
-    return; // Stop further execution
     }
         
   const e = input.files[0],
@@ -50479,13 +50456,6 @@ const file = event.target.files[0];
             code = "function randomDarkColor(){return`#4139e1`}" + document.getElementById("code1").value + code + document.getElementById("code2").value
             eval(code);
     </script>
-
-<dialog id="myModal">
-  <h2>Redirect</h2>
-  <p>You are trying to convert a new .bloxdschem file to a .schem file. This tool cannot do this as there is unremmovable metadata. Please go to <a href="https://hansdiewurst.github.io/converter/">this</a> tool to specially convert Bloxd.io to Minecraft schematics.</p>
-  
-  <button id="closeModalBtn">Close</button>
-</dialog>
 
     <script type="module">
         import avsc from 'https://esm.sh/avsc@5.7.7';
