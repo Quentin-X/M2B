@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloxd to Minecraft .schem Converter</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            line-height: 1.5;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .config-section {
+            margin-top: 20px;
+            border-top: 2px solid #ccc;
+            padding-top: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            font-family: monospace;
+            font-size: 13px;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #115293;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Bloxd to Minecraft (.schem) Auto-Converter</h2>
+    <p>Select a <code>.bloxdschem</code> file. It will automatically convert and start downloading as a Minecraft
+        <code>.schem</code> file.
+    </p>
+
+    <input type="file" id="fileInput" accept=".bloxdschem" />
+    <div id="statusText" class="status"></div>
+
+    <div class="config-section">
+        <h3>Block Mapping Configuration (JSON)</h3>
+        <p>Edit the mapping below (Minecraft Name : Bloxd ID) and click confirm to recalculate and download.</p>
+        <textarea id="configInput"></textarea>
+        <br>
+        <button id="updateConfigBtn">Update Mapping & Re-convert</button>
+    </div>
+
+    <div id="outputContainer" style="display:none; margin-top: 20px;">
+        <h3>Decoded Summary</h3>
+        <pre id="summaryText"></pre>
+    </div>
+
+    <script type="module">
+        import avsc from 'https://esm.sh/avsc@5.7.7';
+        import { Buffer } from 'https://esm.sh/buffer@6.0.3';
+        import pako from 'https://esm.sh/pako@2.1.0';
+
+        // 1. Define Schema
+        const schema0 = avsc.Type.forSchema({
+            type: "record",
+            name: "Schematic",
+            fields: [
+                { name: "headers", type: { type: "fixed", name: "Header0", size: 4 } },
+                { name: "name", type: "string" },
+                { name: "x", type: "int" },
+                { name: "y", type: "int" },
+                { name: "z", type: "int" },
+                { name: "sizeX", type: "int" },
+                { name: "sizeY", type: "int" },
+                { name: "sizeZ", type: "int" },
+                {
+                    name: "chunks",
+                    type: {
+                        type: "array",
+                        items: {
+                            type: "record",
+                            name: "Chunk0",
+                            fields: [
+                                { name: "x", type: "int" },
+                                { name: "y", type: "int" },
+                                { name: "z", type: "int" },
+                                { name: "blocks", type: "bytes" }
+                            ]
+                        }
+                    }
+                }
+            ]
+        });
+
+        let defaultM2bJson = {
+            air: 0,
+            barrier: 0,
+            void_air: 0,
+            cave_air: 0,
+            light: 0,
+            structure_void: 0,
+            beacon: 172,
+            command_block: 1510,
+            chain_command_block: 1510,
+            repeating_command_block: 1510,
+            hopper: 47,
+            acacia_door: 522,
+            acacia_leaves: 491,
+            acacia_log: 11,
+            acacia_planks: 17,
+            acacia_sapling: 200,
+            acacia_slab: 673,
+            acacia_trapdoor: 610,
+            acacia_wood: 11,
+            allium: 160,
+            andesite: 34,
+            andesite_slab: 757,
+            anvil: 47,
+            azalea: 102,
+            azalea_leaves: 102,
+            azure_bluet: 161,
+            barrel: 2092,
+            basalt: 949,
+            bedrock: 147,
+            birch_door: 554,
+            birch_leaves: 101,
+            birch_log: 13,
+            birch_planks: 16,
+            birch_sapling: 197,
+            birch_slab: 685,
+            birch_trapdoor: 626,
+            birch_wood: 13,
+            black_bed: 456,
+            black_carpet: 1040,
+            black_concrete: 86,
+            black_glazed_terracotta: 305,
+            black_stained_glass: 107,
+            black_terracotta: 83,
+            black_wool: 66,
+            blackstone: 951,
+            blast_furnace: 164,
+            blue_bed: 424,
+            blue_carpet: 1041,
+            blue_concrete: 87,
+            blue_glazed_terracotta: 289,
+            blue_orchid: 158,
+            blue_stained_glass: 108,
+            blue_terracotta: 79,
+            blue_wool: 62,
+            bone_block: 8,
+            bookshelf: 1056,
+            brewing_stand: 1008,
+            brick_slab: 889,
+            bricks: 128,
+            brown_bed: 432,
+            brown_carpet: 1042,
+            brown_concrete: 88,
+            brown_glazed_terracotta: 293,
+            brown_mushroom: 1103,
+            brown_mushroom_block: 958,
+            brown_stained_glass: 109,
+            brown_terracotta: 80,
+            brown_wool: 63,
+            cactus: 213,
+            calcite: 32,
+            cartography_table: 244,
+            cauldron: 47,
+            cherry_door: 1233,
+            cherry_leaves: 1226,
+            cherry_log: 1222,
+            cherry_planks: 1225,
+            cherry_sapling: 1257,
+            cherry_slab: 1260,
+            cherry_trapdoor: 1249,
+            cherry_wood: 1222,
+            chest: 204,
+            chiseled_polished_blackstone: 950,
+            chiseled_quartz_block: 482,
+            chiseled_red_sandstone: 476,
+            chiseled_sandstone: 138,
+            chiseled_stone_bricks: 129,
+            chrimson_fungus: 1103,
+            clay: 6,
+            coal_block: 46,
+            coal_ore: 40,
+            coarse_dirt: 652,
+            cobblestone: 29,
+            cobblestone_slab: 715,
+            cobweb: 957,
+            composter: 244,
+            cornflower: 159,
+            cracked_stone_bricks: 136,
+            crafting_table: 168,
+            cut_red_sandstone: 477,
+            cut_red_sandstone_slab: 877,
+            cut_sandstone: 473,
+            cut_sandstone_slab: 847,
+            cyan_bed: 408,
+            cyan_carpet: 1043,
+            cyan_concrete: 89,
+            cyan_glazed_terracotta: 281,
+            cyan_stained_glass: 110,
+            cyan_terracotta: 77,
+            cyan_wool: 60,
+            dandelion: 151,
+            dark_oak_door: 538,
+            dark_oak_leaves: 492,
+            dark_oak_log: 12,
+            dark_oak_planks: 20,
+            dark_oak_sapling: 202,
+            dark_oak_slab: 679,
+            dark_oak_trapdoor: 618,
+            dark_oak_wood: 12,
+            dead_bush: 15,
+            deepslate: 947,
+            deepslate_tile_slab: 739,
+            deepslate_tiles: 948,
+            diamond_block: 172,
+            diamond_ore: 45,
+            diorite: 32,
+            diorite_slab: 781,
+            dirt: 2,
+            ender_chest: 466,
+            farmland: 317,
+            fern: 150,
+            flowering_azalea_leaves: 102,
+            furnace: 164,
+            gilded_blackstone: 951,
+            glass: 106,
+            glow_lichen: 219,
+            glowstone: 145,
+            gold_block: 48,
+            gold_ore: 42,
+            granite: 36,
+            granite_slab: 805,
+            grass: 150,
+            grass_block: 4,
+            gray_bed: 392,
+            gray_carpet: 1044,
+            gray_concrete: 84,
+            gray_glazed_terracotta: 273,
+            gray_stained_glass: 111,
+            gray_terracotta: 75,
+            gray_wool: 58,
+            green_bed: 440,
+            green_carpet: 1046,
+            green_concrete: 98,
+            green_glazed_terracotta: 297,
+            green_stained_glass: 113,
+            green_terracotta: 81,
+            green_wool: 64,
+            grindstone: 244,
+            hay_block: 318,
+            iron_block: 47,
+            iron_door: 173,
+            iron_ore: 41,
+            jungle_door: 570,
+            jungle_leaves: 103,
+            jungle_log: 14,
+            jungle_planks: 18,
+            jungle_sapling: 199,
+            jungle_slab: 691,
+            jungle_trapdoor: 634,
+            jungle_wood: 14,
+            ladder: 215,
+            lava: 1491,
+            large_fern: 1109,
+            light_blue_bed: 360,
+            light_blue_carpet: 1047,
+            light_blue_concrete: 90,
+            light_blue_glazed_terracotta: 257,
+            light_blue_stained_glass: 114,
+            light_blue_terracotta: 71,
+            light_blue_wool: 54,
+            light_gray_bed: 400,
+            light_gray_carpet: 1045,
+            light_gray_concrete: 85,
+            light_gray_glazed_terracotta: 277,
+            light_gray_stained_glass: 112,
+            light_gray_terracotta: 76,
+            light_gray_wool: 59,
+            lilac: 158,
+            lily_of_the_valley: 162,
+            lily_pad: 1046,
+            lime_bed: 376,
+            lime_carpet: 1048,
+            lime_concrete: 91,
+            lime_glazed_terracotta: 265,
+            lime_stained_glass: 115,
+            lime_terracotta: 73,
+            lime_wool: 56,
+            magenta_bed: 352,
+            magenta_carpet: 1049,
+            magenta_concrete: 92,
+            magenta_glazed_terracotta: 253,
+            magenta_stained_glass: 116,
+            magenta_terracotta: 70,
+            magenta_wool: 53,
+            magma_block: 471,
+            mangrove_door: 522,
+            mangrove_leaves: 491,
+            mangrove_log: 11,
+            mangrove_planks: 17,
+            mangrove_slab: 673,
+            mangrove_trapdoor: 610,
+            mangrove_wood: 11,
+            melon: 105,
+            moss_block: 4,
+            moss_carpet: 1046,
+            mossy_cobblestone: 322,
+            mossy_cobblestone_slab: 745,
+            mossy_stone: 322,
+            mossy_stone_brick_slab: 751,
+            mossy_stone_bricks: 135,
+            mud_brick: 128,
+            mud_brick_slab: 823,
+            mud_bricks: 487,
+            mushroom_stem: 958,
+            netherrack: 131,
+            nether_brick_planks: 130,
+            nether_brick_slab: 130,
+            note_block: 168,
+            oak_door: 173,
+            oak_leaves: 102,
+            oak_log: 9,
+            oak_planks: 15,
+            oak_sapling: 198,
+            oak_slab: 661,
+            oak_trapdoor: 189,
+            oak_wood: 9,
+            obsidian: 140,
+            orange_bed: 344,
+            orange_carpet: 1050,
+            orange_concrete: 93,
+            orange_glazed_terracotta: 249,
+            orange_stained_glass: 117,
+            orange_terracotta: 69,
+            orange_tulip: 156,
+            orange_wool: 52,
+            oxeye_daisy: 157,
+            packed_mud: 486,
+            peony: 160,
+            pink_bed: 384,
+            pink_carpet: 1051,
+            pink_concrete: 94,
+            pink_glazed_terracotta: 269,
+            pink_stained_glass: 118,
+            pink_terracotta: 74,
+            pink_tulip: 154,
+            pink_wool: 57,
+            podzol: 3,
+            polished_andesite: 35,
+            polished_andesite_slab: 763,
+            polished_blackstone: 950,
+            polished_blackstone_bricks: 948,
+            polished_blackstone_slab: 950,
+            polished_diorite: 33,
+            polished_diorite_slab: 787,
+            polished_granite: 37,
+            polished_granite_slab: 811,
+            poppy: 152,
+            purple_bed: 416,
+            purple_carpet: 1052,
+            purple_concrete: 95,
+            purple_glazed_terracotta: 285,
+            purple_stained_glass: 119,
+            purple_terracotta: 78,
+            purple_wool: 61,
+            quartz_block: 97,
+            quartz_bricks: 483,
+            quartz_pillar: 97,
+            quartz_slab: 1131,
+            red_bed: 448,
+            red_carpet: 1053,
+            red_concrete: 96,
+            red_glazed_terracotta: 301,
+            red_mushroom: 1102,
+            red_mushroom_block: 959,
+            red_nether_brick_slab: 130,
+            red_nether_bricks: 130,
+            red_sand: 650,
+            red_sandstone: 474,
+            red_sandstone_slab: 859,
+            red_stained_glass: 120,
+            red_terracotta: 82,
+            red_tulip: 153,
+            red_wool: 65,
+            redstone_block: 96,
+            rooted_dirt: 3,
+            rose_bush: 152,
+            sand: 5,
+            sandstone: 38,
+            sandstone_slab: 829,
+            scaffolding: 15,
+            seagrass: 150,
+            short_grass: 150,
+            shroomlight: 145,
+            sign: 952,
+            smithing_table: 244,
+            smoker: 164,
+            smooth_quartz: 97,
+            smooth_quartz_block: 97,
+            smooth_quartz_slab: 1131,
+            smooth_red_sandstone: 475,
+            smooth_red_sandstone_slab: 865,
+            smooth_sandstone: 137,
+            smooth_sandstone_slab: 835,
+            smooth_stone: 31,
+            smooth_stone_slab: 727,
+            snow: 8,
+            snow_block: 8,
+            spruce_door: 506,
+            spruce_leaves: 100,
+            spruce_log: 10,
+            spruce_planks: 19,
+            spruce_sapling: 201,
+            spruce_slab: 667,
+            spruce_trapdoor: 602,
+            spruce_wood: 10,
+            stone: 28,
+            stone_brick_slab: 739,
+            stone_bricks: 129,
+            stone_slab: 721,
+            stonecutter: 244,
+            stripped_acacia_log: 23,
+            stripped_acacia_wood: 23,
+            stripped_birch_log: 22,
+            stripped_birch_wood: 22,
+            stripped_cherry_log: 1223,
+            stripped_cherry_wood: 1223,
+            stripped_dark_oak_log: 26,
+            stripped_dark_oak_wood: 26,
+            stripped_jungle_log: 24,
+            stripped_jungle_wood: 24,
+            stripped_mangrove_log: 23,
+            stripped_mangrove_wood: 23,
+            stripped_oak_log: 21,
+            stripped_oak_wood: 21,
+            stripped_spruce_log: 25,
+            stripped_spruce_wood: 25,
+            sugar_cane: 149,
+            sunflower: 157,
+            tall_grass: 1109,
+            tall_seagrass: 1109,
+            terracotta: 67,
+            torchflower: 152,
+            tuff: 29,
+            vine: 219,
+            water: 126,
+            water_cauldron: 126,
+            wheat: 315,
+            white_bed: 336,
+            white_carpet: 1054,
+            white_concrete: 97,
+            white_glazed_terracotta: 245,
+            white_stained_glass: 121,
+            white_terracotta: 68,
+            white_tulip: 155,
+            white_wool: 51,
+            yellow_bed: 368,
+            yellow_carpet: 1055,
+            yellow_concrete: 99,
+            yellow_glazed_terracotta: 261,
+            yellow_stained_glass: 122,
+            yellow_terracotta: 72,
+            yellow_wool: 55,
+            gravel: 6,
+            lapis_ore: 43,
+            emerald_ore: 44,
+            ice: 139,
+            melon_stem: 963,
+            pumpkin_stem: 969,
+            azalea_bush: 102,
+            mangrove_roots: 491,
+            muddy_mangrove_roots: 491,
+            mangrove_sapling: 200,
+            mangrove_propagule: 200,
+            suspicious_sand: 5,
+            suspicious_gravel: 6,
+            deepslate_coal_ore: 40,
+            deepslate_iron_ore: 41,
+            raw_iron_block: 47,
+            deepslate_gold_ore: 42,
+            nether_gold_ore: 42,
+            raw_gold_block: 48,
+            deepslate_diamond_ore: 45,
+            copper_ore: 41,
+            deepslate_copper_ore: 41,
+            copper_block: 47,
+            raw_copper_block: 47,
+            redstone_ore: 42,
+            deepslate_redstone_ore: 42,
+            deepslate_emerald_ore: 44,
+            emerald_block: 50,
+            deepslate_lapis_ore: 43,
+            lapis_block: 49,
+            nether_quartz_ore: 465,
+            ancient_debris: 172,
+            netherite_block: 172,
+            wither_rose: 152,
+            tnt: 146,
+            chiseled_bookshelf: 1056,
+            fire: 1491,
+            soul_fire: 1491,
+            packed_ice: 139,
+            frosted_ice: 139,
+            blue_ice: 139,
+            jukebox: 1084,
+            pumpkin: 975,
+            soul_sand: 5,
+            soul_soil: 5,
+            polished_basalt: 949,
+            smooth_basalt: 949,
+            nether_portal: 126,
+            carved_pumpkin: 976,
+            jack_o_lantern: 980,
+            mud: 3,
+            attached_pumpkin_stem: 971,
+            attached_melon_stem: 965,
+            mycelium: 3,
+            nether_bricks: 130,
+            enchanting_table: 172,
+            lava_cauldron: 1491,
+            powder_snow_cauldron: 8,
+            end_stone: 38,
+            dragon_egg: 140,
+            carrots: 315,
+            potatoes: 1738,
+            chipped_anvil: 47,
+            damaged_anvil: 47,
+            trapped_chest: 204,
+            slime_block: 1493,
+            petrified_oak_slab: 661,
+            purpur_slab: 1161,
+            end_stone_brick_slab: 853,
+            blackstone_slab: 951,
+            polished_blackstone_brick_slab: 948,
+            cobbled_deepslate_slab: 948,
+            polished_deepslate_slab: 948,
+            deepslate_brick_slab: 948,
+            chorus_plant: 285,
+            chorus_flower: 285,
+            purpur_block: 92,
+            purpur_pillar: 92,
+            end_stone_bricks: 481,
+            beetroots: 1092,
+            dirt_path: 317,
+            nether_wart_block: 131,
+            kelp: 150,
+            kelp_plant: 150,
+            dried_kelp_block: 4,
+            dead_tube_coral_block: 273,
+            dead_brain_coral_block: 273,
+            dead_bubble_coral_block: 273,
+            dead_fire_coral_block: 273,
+            dead_horn_coral_block: 273,
+            tube_coral_block: 289,
+            brain_coral_block: 269,
+            bubble_coral_block: 285,
+            fire_coral_block: 301,
+            horn_coral_block: 261,
+            bubble_column: 126,
+            loom: 244,
+            fletching_table: 244,
+            lectern: 1060,
+            bell: 48,
+            campfire: 1491,
+            soul_campfire: 1491,
+            sweet_berry_bush: 1099,
+            warped_nylium: 131,
+            crimson_nylium: 131,
+            structure_block: 470,
+            jigsaw: 470,
+            beehive: 261,
+            honey_block: 261,
+            honeycomb_block: 261,
+            crying_obsidian: 140,
+            respawn_anchor: 140,
+            cracked_polished_blackstone_bricks: 948,
+            tinted_glass: 107,
+            powder_snow: 8,
+            dripstone_block: 28,
+            cave_vines: 150,
+            cave_vines_plant: 150,
+            flowering_azalea: 102,
+            flowering_azalea_bush: 102,
+            cobbled_deepslate: 948,
+            polished_deepslate: 948,
+            deepslate_bricks: 948,
+            chiseled_deepslate: 948,
+            cracked_deepslate_bricks: 948,
+            cracked_deepslate_tiles: 948,
+            ochre_froglight: 145,
+            verdant_froglight: 145,
+            pearlescent_froglight: 145,
+            reinforced_deepslate: 950,
+            bamboo_door: 1970,
+            bamboo_block: 1968,
+            bamboo_planks: 1968,
+            bamboo_slab: 1997,
+            bamboo_trapdoor: 1986,
+            prismarine: 478,
+            prismarine_bricks: 479,
+            dark_prismarine: 480,
+            sponge: 142,
+            wet_sponge: 142,
+            wither_rose: 163,
+            torch: 2907,
+            iron_bars: 996,
+        };
+
+        // Initialize Textarea with formatted JSON
+        const configInput = document.getElementById('configInput');
+        configInput.value = JSON.stringify(defaultM2bJson, null, 4);
+
+        let BLOXD_TO_MC_PALETTE = {};
+
+        function buildPalette(mappingJson) {
+            return Object.fromEntries(
+                Object.entries(mappingJson).map(([key, value]) => [value, key])
+            );
+        }
+
+        // Initialize current active palette map
+        BLOXD_TO_MC_PALETTE = buildPalette(defaultM2bJson);
+
+        const unconfiguredLogged = new Set();
+
+        function getMinecraftBlockState(id) {
+            if (Object.prototype.hasOwnProperty.call(BLOXD_TO_MC_PALETTE, id)) {
+                return BLOXD_TO_MC_PALETTE[id];
+            }
+
+            if (!unconfiguredLogged.has(id)) {
+                console.warn(`[Block Mapper] Bloxd Block ID ${id} is unconfigured. Defaulting to 'minecraft:dirt'.`);
+                const myElement = document.querySelector('#summaryText');
+                const lineBreak = document.createElement('br');
+                myElement.append(lineBreak, `[Block Mapper] Bloxd Block ID ${id} is unconfigured. Defaulting to 'minecraft:dirt'.`);
+
+                unconfiguredLogged.add(id);
+            }
+
+            return "minecraft:dirt";
+        }
+
+        // 3. Decoding Helpers
+        function readLEB128(bytes, state) {
+            let shift = 0;
+            let value = 0;
+            while (state.i < bytes.length) {
+                const byte = bytes[state.i++];
+                value |= (byte & 127) << shift;
+                if ((byte & 128) !== 128) break;
+                shift += 7;
+            }
+            return value;
+        }
+
+        function decodeChunkBlocks(bytes) {
+            const state = { i: 0 };
+            const runs = [];
+            const blocks = [];
+            while (state.i < bytes.length) {
+                const amount = readLEB128(bytes, state);
+                const id = readLEB128(bytes, state);
+                runs.push({ amount, id });
+                for (let i = 0; i < amount; i++) {
+                    blocks.push(id);
+                }
+            }
+            return { runs, blocks };
+        }
+
+        // 4. Binary NBT Writer for Sponge Schematic Format V2
+        class NBTWriter {
+            constructor() {
+                this.bytes = [];
+            }
+            writeByte(v) { this.bytes.push(v & 0xFF); }
+            writeShort(v) { this.writeByte((v >> 8) & 0xFF); this.writeByte(v & 0xFF); }
+            writeInt(v) {
+                this.writeByte((v >> 24) & 0xFF);
+                this.writeByte((v >> 16) & 0xFF);
+                this.writeByte((v >> 8) & 0xFF);
+                this.writeByte(v & 0xFF);
+            }
+            writeString(str) {
+                const buf = new TextEncoder().encode(str);
+                this.writeShort(buf.length);
+                for (let b of buf) this.bytes.push(b);
+            }
+            writeVarInt(v) {
+                let val = v;
+                while ((val & -128) !== 0) {
+                    this.writeByte((val & 127) | 128);
+                    val >>>= 7;
+                }
+                this.writeByte(val & 127);
+            }
+            toByteArray() {
+                return new Uint8Array(this.bytes);
+            }
+        }
+
+        function createSpongeSchematic(decodedData) {
+            unconfiguredLogged.clear();
+
+            const sizeX = decodedData.size[0];
+            const sizeY = decodedData.size[1];
+            const sizeZ = decodedData.size[2];
+
+            const totalBlocks = sizeX * sizeY * sizeZ;
+            const blockGrid = new Int32Array(totalBlocks);
+
+            for (const chunk of decodedData.chunks) {
+                const [cx, cy, cz] = chunk.pos;
+                for (let i = 0; i < chunk.blocks.length; i++) {
+                    const id = chunk.blocks[i];
+                    const lx = Math.floor(i / (32 * 32));
+                    const ly = Math.floor(i / 32) % 32;
+                    const lz = i % 32;
+
+                    const x = cx * 32 + lx;
+                    const y = cy * 32 + ly;
+                    const z = cz * 32 + lz;
+
+                    if (x >= 0 && x < sizeX && y >= 0 && y < sizeY && z >= 0 && z < sizeZ) {
+                        const index = (y * sizeZ + z) * sizeX + x;
+                        blockGrid[index] = id;
+                    }
+                }
+            }
+
+            const paletteMap = new Map();
+            let currentPaletteId = 0;
+            paletteMap.set("minecraft:air", currentPaletteId++);
+
+            const varIntBlocks = new NBTWriter();
+            for (let i = 0; i < totalBlocks; i++) {
+                const bloxdId = blockGrid[i];
+                const mcState = getMinecraftBlockState(bloxdId);
+
+                if (!paletteMap.has(mcState)) {
+                    paletteMap.set(mcState, currentPaletteId++);
+                }
+
+                const paletteId = paletteMap.get(mcState);
+                varIntBlocks.writeVarInt(paletteId);
+            }
+
+            const blockDataBytes = varIntBlocks.toByteArray();
+
+            const nbt = new NBTWriter();
+            nbt.writeByte(0x0A); nbt.writeString(""); // Root Tag
+
+            nbt.writeByte(0x03); nbt.writeString("Version"); nbt.writeInt(2);
+            nbt.writeByte(0x03); nbt.writeString("DataVersion"); nbt.writeInt(3465);
+
+            nbt.writeByte(0x02); nbt.writeString("Width"); nbt.writeShort(sizeX);
+            nbt.writeByte(0x02); nbt.writeString("Height"); nbt.writeShort(sizeY);
+            nbt.writeByte(0x02); nbt.writeString("Length"); nbt.writeShort(sizeZ);
+
+            nbt.writeByte(0x03); nbt.writeString("PaletteMax"); nbt.writeInt(paletteMap.size);
+            nbt.writeByte(0x0A); nbt.writeString("Palette");
+            for (const [stateStr, palId] of paletteMap.entries()) {
+                nbt.writeByte(0x03);
+                nbt.writeString(stateStr);
+                nbt.writeInt(palId);
+            }
+            nbt.writeByte(0x00); // Tag_End (Palette)
+
+            nbt.writeByte(0x07); nbt.writeString("BlockData");
+            nbt.writeInt(blockDataBytes.length);
+            for (let b of blockDataBytes) nbt.writeByte(b);
+
+            nbt.writeByte(0x00); // Tag_End (Root)
+
+            return pako.gzip(nbt.toByteArray());
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Keep last decoded data in memory to convert without re-uploading
+        let currentDecodedData = null;
+
+        function processAndDownload() {
+            if (!currentDecodedData) return;
+
+            const statusEl = document.getElementById('statusText');
+            statusEl.style.color = '#333';
+            statusEl.textContent = 'Generating schematic and starting download...';
+
+            // Display summary on page
+            let txt = [];
+            txt.push(`Name: ${currentDecodedData.name}`);
+            txt.push(`Size: ${currentDecodedData.size.join(" x ")}`);
+            txt.push(`Chunks: ${currentDecodedData.chunks.length}`);
+            txt.push("\nBlock ID counts:");
+            for (const [id, count] of Object.entries(currentDecodedData.countsById).sort((a, b) => b[1] - a[1])) {
+                txt.push(`  ID ${id}: ${count}`);
+            }
+
+            document.getElementById('summaryText').textContent = txt.join("\n");
+            document.getElementById('outputContainer').style.display = 'block';
+
+            // Generate Sponge .schem and trigger download
+            const compressedBytes = createSpongeSchematic(currentDecodedData);
+            const blob = new Blob([compressedBytes], { type: "application/octet-stream" });
+
+            const fileName = `${currentDecodedData.name || 'schematic'}.schem`;
+            downloadBlob(blob, fileName);
+
+            statusEl.style.color = '#2e7d32';
+            statusEl.textContent = `Conversion complete! Downloaded "${fileName}".`;
+        }
+
+        // 5. Automatic Processing and Download Event Listener
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const statusEl = document.getElementById('statusText');
+            statusEl.style.color = '#333';
+            statusEl.textContent = 'Processing and converting...';
+
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+
+            reader.onload = function (e) {
+                try {
+                    const buffer = Buffer.from(e.target.result);
+                    const data = schema0.fromBuffer(buffer, undefined, true);
+
+                    currentDecodedData = {
+                        name: data.name,
+                        origin: [data.x, data.y, data.z],
+                        size: [data.sizeX, data.sizeY, data.sizeZ],
+                        chunks: [],
+                        countsById: {}
+                    };
+
+                    for (const c of data.chunks) {
+                        const decodedChunk = decodeChunkBlocks(c.blocks);
+                        currentDecodedData.chunks.push({
+                            pos: [c.x, c.y, c.z],
+                            runs: decodedChunk.runs,
+                            blocks: decodedChunk.blocks
+                        });
+
+                        for (let i = 0; i < decodedChunk.blocks.length; i++) {
+                            const id = decodedChunk.blocks[i];
+                            currentDecodedData.countsById[id] = (currentDecodedData.countsById[id] || 0) + 1;
+                        }
+                    }
+
+                    processAndDownload();
+
+                } catch (err) {
+                    statusEl.style.color = '#d32f2f';
+                    statusEl.textContent = 'Error decoding file! Check developer console.';
+                    console.error(err);
+                }
+            };
+        });
+
+        // Event listener for updating config & re-converting
+        document.getElementById('updateConfigBtn').addEventListener('click', function () {
+            const statusEl = document.getElementById('statusText');
+            try {
+                const parsedConfig = JSON.parse(configInput.value);
+                BLOXD_TO_MC_PALETTE = buildPalette(parsedConfig);
+
+                if (currentDecodedData) {
+                    processAndDownload();
+                } else {
+                    statusEl.style.color = '#2e7d32';
+                    statusEl.textContent = 'Configuration updated successfully! Upload a file to convert.';
+                }
+            } catch (err) {
+                statusEl.style.color = '#d32f2f';
+                statusEl.textContent = 'Invalid JSON in config text area. Please fix syntax errors.';
+                console.error("JSON Error:", err);
+            }
+        });
+    </script>
+</body>
+
+</html>
